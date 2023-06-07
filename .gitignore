@@ -1,0 +1,12 @@
+node_modules/
+dist/
+build/
+
+*.log
+*.pid
+*.env
+
+.vscode/
+.idea/
+*.sublime-*
+*.swp
