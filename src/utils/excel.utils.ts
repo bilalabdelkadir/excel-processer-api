@@ -14,19 +14,32 @@ async function processExcelData(filePath: string): Promise<ProductEntity[]> {
     for (const row of jsonData) {
         const mappedRow: ProductEntity = {
             itemNo: String(row['__EMPTY']),
-            description: getDescription(row),
+            description: row['__EMPTY_1'] as string,
             unit: row['__EMPTY_2'] as string,
             qty: row['__EMPTY_3'] !== '-' ? String(row['__EMPTY_3']) : undefined,
             rate: String(row['__EMPTY_4']),
             amount: row['__EMPTY_5'] !== '-' ? String(row['__EMPTY_5']) : undefined,
         };
 
-        // Validate required fields
         if (!mappedRow.itemNo || !mappedRow.description || !mappedRow.unit) {
-            continue; // Skip the current row and move to the next row
+            continue;
         }
 
-        // Save the product to the database
+        if (
+            mappedRow.itemNo === 'Item No ' ||
+            mappedRow.description === 'Description' ||
+            mappedRow.unit === 'Unit' ||
+            mappedRow.qty === 'Qty' ||
+            mappedRow.rate === 'Rate' ||
+            mappedRow.amount === 'Amount'
+        ) {
+            continue;
+        }
+
+        if (!mappedRow.itemNo) {
+            mappedRow.itemNo = products[products.length - 1].itemNo;
+        }
+
         const createdProduct = await prisma.product.create({
             data: mappedRow,
         });
@@ -35,27 +48,6 @@ async function processExcelData(filePath: string): Promise<ProductEntity[]> {
     }
 
     return products;
-}
-
-function getDescription(row: any): string {
-    const description = row['__EMPTY_1'] as string;
-    const nestedTables = getNestedTables(row);
-    if (nestedTables.length === 0) {
-        return description;
-    } else {
-        const nestedDescriptions = nestedTables.map(getDescription);
-        return `${description}\n${nestedDescriptions.join('\n')}`;
-    }
-}
-
-function getNestedTables(row: any): any[] {
-    const nestedTables: any[] = [];
-    for (const key in row) {
-        if (key.startsWith('__EMPTY_') && Array.isArray(row[key])) {
-            nestedTables.push(row[key]);
-        }
-    }
-    return nestedTables;
 }
 
 export { processExcelData };
