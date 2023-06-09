@@ -16,6 +16,6 @@ model Product {
   description String
   unit        String
   qty         String?
-  rate        Int
-  amount      Int?
+  rate        String
+  amount      String?
 }
