@@ -1,6 +1,6 @@
 import xlsx from 'xlsx';
 import { PrismaClient } from '@prisma/client';
-import { ProductEntity } from '../models/product.entity.js';
+import { ProductEntity } from '../model/product.entity.js';
 
 const prisma = new PrismaClient();
 
