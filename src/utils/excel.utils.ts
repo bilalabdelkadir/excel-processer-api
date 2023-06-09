@@ -25,7 +25,6 @@ async function processExcelData(filePath: string): Promise<ProductEntity[]> {
         if (!mappedRow.itemNo || !mappedRow.description || !mappedRow.unit) {
             continue; // Skip the current row and move to the next row
         }
-        if ()
 
         // Save the product to the database
         const createdProduct = await prisma.product.create({
