@@ -14,7 +14,7 @@ A backend project built with TypeScript, Express.js, Prisma, and PostgreSQL usin
 
 ## Project Description
 
-for this project i used xsxl for reading the excel file and prisma for database and express for the server and typescript for the language and docker for the database prisma as orm and postgressql as database morgan and winston for logging
+for this project i used xsxl for reading the excel file and prisma for database and express for the server and typescript for the language and docker for the database prisma as orm and postgressql as database morgan and winston for logging for logs you can setup log/erro.log and log/combined.log and you can use postman to test the endpoints
 
 ## Installation
 
